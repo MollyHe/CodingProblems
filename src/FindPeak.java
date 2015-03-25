@@ -7,8 +7,8 @@ public class FindPeak {
         int[][] AA={{10,8,10,10},{14,13,12,11},{15,9,10,21},{16,17,19,20}};
         //int[][] AA={{1,2,5}};
         //System.out.println(findPeak_1D_alg1(A));
-        //System.out.println(findPeak_1D_alg2(A));
-        System.out.println(findPeak_2D(AA,0,AA[0].length));
+        System.out.println(findPeak_1D_alg2(A,0,A.length));
+        //System.out.println(findPeak_2D(AA,0,AA[0].length));
     }
 
     //O(n) solution
@@ -40,36 +40,30 @@ public class FindPeak {
     }
 
     //O(logn) solution using Binary Search Concept
-    public static int findPeak_1D_alg2(int[] A){
+    public static int findPeak_1D_alg2(int[] A,int left, int right){
         if(A==null || A.length==0){
             return Integer.MIN_VALUE;
         }
-
-        //One element
-        if(A.length==1){
-            return A[0];
+        //one elem
+        if(left==right){
+            return A[left];
+        }
+        //on the sides
+        if(right-left==1){
+            return Math.max(A[left],A[right]);
         }
 
-        //two sides
-        if(A[0]>=A[1]){
-            return A[0];
-        }
-        if(A[A.length-1]>=A[A.length-2]){
-            return A[A.length-1];
-        }
-
-        int left=0, right=A.length-1;
-        while(left<=right){
+        if(left<=right){
             int mid=(left+right)/2;
             if(A[mid]<A[mid-1]){
-                //go left
-                right=mid-1;
+                return findPeak_1D_alg2(A,left,mid-1);
             }else if(A[mid]<A[mid+1]){
-                left=mid+1;
+                return findPeak_1D_alg2(A,mid+1,right);
             }else{
                 return A[mid];
             }
         }
+
 
         return Integer.MIN_VALUE;
     }
